@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ValidateInput {
-	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	public DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	private static BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
 	private static FileSystem fs = new FileSystem();
 
