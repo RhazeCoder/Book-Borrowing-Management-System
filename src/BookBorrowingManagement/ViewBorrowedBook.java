@@ -35,6 +35,7 @@ public class ViewBorrowedBook {
       totalBook += Integer.parseInt(individualInfo[1]);
     }
     System.out.println("Total Borrowed Book/s: " + totalBook);
+    System.out.println("Date Borrowed: " + details.get(4));
     System.out.println("==================================================\n");
   }
 
