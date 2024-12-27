@@ -9,7 +9,6 @@ import java.util.List;
 import utils.FileSystem;
 
 public class ViewBorrowedBook {
-  private static EditBook editBook = new EditBook();
   private static FileSystem fs = new FileSystem();
 
   private static void displayInfo(String book) throws IOException {
