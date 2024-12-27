@@ -9,6 +9,7 @@ import java.util.List;
 import utils.FileSystem;
 
 public class ViewBook {
+  private static EditBook editBook = new EditBook();
   private static FileSystem fs = new FileSystem();
 
   private static void displayInfo(String book) throws IOException {
@@ -64,5 +65,6 @@ public class ViewBook {
     for (String book : books) {
       displayInfo(book);
     }
+    editBook.askEdit();
   }
 }
