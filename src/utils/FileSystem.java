@@ -31,6 +31,11 @@ public class FileSystem {
             bFile.createNewFile();
     }
 
+    private static void createReports() throws IOException {
+        if (!rFile.exists())
+            rFile.createNewFile();
+    }
+
     public String[] read() throws IOException {
         create();
         List<String> lines = new ArrayList<>();
@@ -55,6 +60,24 @@ public class FileSystem {
         List<String> lines = new ArrayList<>();
 
         try (FileReader fileReader = new FileReader(BORROWED_FILE_NAME);
+                BufferedReader reader = new BufferedReader(fileReader)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            return lines.toArray(new String[0]);
+
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return new String[] { e.getMessage() };
+        }
+    }
+
+    public String[] readReports() throws IOException {
+        createReports();
+        List<String> lines = new ArrayList<>();
+
+        try (FileReader fileReader = new FileReader(REPORT_FILE_NAME);
                 BufferedReader reader = new BufferedReader(fileReader)) {
             String line;
             while ((line = reader.readLine()) != null) {
