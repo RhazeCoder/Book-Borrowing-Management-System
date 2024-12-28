@@ -15,6 +15,7 @@ public class MainMenu {
     BorrowBook borrowBook = new BorrowBook();
     ViewBorrowedBook viewBorrowed = new ViewBorrowedBook();
     ReturnBook returnBook = new ReturnBook();
+    Reports reports = new Reports();
 
     private void navigateMenu(char choice) throws IOException {
         switch (choice) {
@@ -36,6 +37,10 @@ public class MainMenu {
                 break;
             case '5':
                 returnBook.start();
+                sys.pause();
+                break;
+            case '6':
+                reports.start();
                 sys.pause();
                 break;
             case '7':
