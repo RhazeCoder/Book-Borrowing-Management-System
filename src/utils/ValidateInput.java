@@ -146,7 +146,12 @@ public class ValidateInput {
 
 					if (quantity > bookQuantity && bookID.equalsIgnoreCase(bookId)) {
 						System.out.println("Borrow quantity too high");
+						return 0;
+					} else if (quantity <= 0&& bookID.equalsIgnoreCase(bookId)) {
+						System.out.println("Borrow quantity too low");
+						return 0;
 					}
+
 
 					if (bookID.equalsIgnoreCase(bookId)) {
 						int newBookQuantity = bookQuantity - quantity;
@@ -212,7 +217,12 @@ public class ValidateInput {
 				if (input == null) {
 					throw new IOException("Input stream closed.");
 				}
-				return Integer.parseInt(input);
+				
+				if (Integer.parseInt(input) > 0) {
+				    return Integer.parseInt(input);
+				}
+				
+				System.out.println("Input must be higher than 0");
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid input. Please enter a numeric value.");
 			}

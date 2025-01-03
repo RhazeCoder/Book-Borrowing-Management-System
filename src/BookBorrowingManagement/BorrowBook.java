@@ -16,6 +16,8 @@ public class BorrowBook {
   private static Scanner scan = new Scanner(System.in);
   private static Sys sys = new Sys();
   private static ValidateInput validate = new ValidateInput();
+  
+  private static boolean isBorrowed = false;
 
   private static String addData() throws IOException {
     String studentId = validate.prompt("Enter Student ID: ");
@@ -42,15 +44,19 @@ public class BorrowBook {
 
         int bookQuantity = validate.checkQuantity("Quantity to Borrow: ", bookId);
 
-        books.put(bookId, books.getOrDefault(bookId, 0) + bookQuantity);
-        System.out.println("Book added!");
+        if (bookQuantity <= 0) {
+        	System.out.println("No changes made!");
+        } else {
+        	books.put(bookId, books.getOrDefault(bookId, 0) + bookQuantity);
+        	System.out.println("Book added!");
+        	isBorrowed = true;
+        }
       }
 
       System.out.print("\nAdd more book? (y, n): ");
       addMore = scan.next().charAt(0);
     } while (addMore == 'y');
 
-    // Convert books map to string representation
     StringBuilder booksData = new StringBuilder();
     for (Map.Entry<String, Integer> entry : books.entrySet()) {
       booksData.append(entry.getKey()).append("=").append(entry.getValue()).append("|");
@@ -68,8 +74,12 @@ public class BorrowBook {
     do {
       String data = addData();
       if (!data.equals("existed")) {
-        fs.writeBorrow(data);
-        System.out.println("\nRecord saved!");
+        if (isBorrowed) {
+        	fs.writeBorrow(data);
+            System.out.println("\nRecord saved!");
+        } else {
+        	System.out.println("\nNo booked borrowed");
+        }
       }
       System.out.print("\nAdd more student? (y/n): ");
       char choice = scan.next().charAt(0);
