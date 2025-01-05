@@ -23,9 +23,8 @@ public class ViewBorrowedBook {
     System.out.println("============== Borrower Information ==============");
     System.out.println("Student ID: " + details.get(0));
     System.out.println("Student Name: " + details.get(1));
-    System.out.println("Over Due Payment Type: " + details.get(2));
     System.out.println("Borrowed Book/s: ");
-    String[] borrowInfo = details.get(3).split("\\|");
+    String[] borrowInfo = details.get(2).split("\\|");
     int totalBook = 0;
     for (int i = 0; i < borrowInfo.length; i++) {
       String info = borrowInfo[i];
@@ -35,7 +34,7 @@ public class ViewBorrowedBook {
       totalBook += Integer.parseInt(individualInfo[1]);
     }
     System.out.println("Total Borrowed Book/s: " + totalBook);
-    System.out.println("Date Borrowed: " + details.get(4));
+    System.out.println("Date Borrowed: " + details.get(3));
     System.out.println("==================================================\n");
   }
 

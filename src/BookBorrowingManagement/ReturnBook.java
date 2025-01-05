@@ -77,10 +77,9 @@ public class ReturnBook {
         System.out.println("============== Borrower Information ==============");
         System.out.println("Student ID: " + lines[0]);
         System.out.println("Student Name: " + lines[1]);
-        System.out.println("Over Due Payment Type: " + lines[2]);
         System.out.println("Borrowed Book/s: ");
-        bookInfo = lines[3];
-        String[] borrowInfo = lines[3].split("\\|");
+        bookInfo = lines[2];
+        String[] borrowInfo = lines[2].split("\\|");
         int totalBook = 0;
         for (int i = 0; i < borrowInfo.length; i++) {
           String info = borrowInfo[i];
@@ -90,20 +89,22 @@ public class ReturnBook {
           totalBook += Integer.parseInt(individualInfo[1]);
         }
         System.out.println("Total Borrowed Book/s: " + totalBook);
-        System.out.println("Date Borrowed: " + lines[4]);
-        dateBorrowed = LocalDate.parse(lines[4]);
+        System.out.println("Date Borrowed: " + lines[3]);
+        dateBorrowed = LocalDate.parse(lines[3]);
         System.out.println("==================================================\n");
-        reportData = lines[0] + "\n" + lines[1] + "\n" + lines[2] + "\n" + lines[3] + "\n" + lines[4] + totalBook;
+        reportData = lines[0] + "\n" + lines[1] + "\n" + lines[2] + "\n" + lines[3];
         break;
       }
     }
 
     LocalDate currentDate = LocalDate.now();
     int overDueDays = calculate.overDueDays(dateBorrowed, currentDate);
+    String payment = "-";
     String overDuePay = "0";
     if (overDueDays <= 7) {
       System.out.println("No overdue payment.");
     } else {
+      payment = validate.paymentType("Enter payment type (cash, card, gcash): ");
       overDuePay = "" + (overDueDays - 7) * 50;
       System.out.println("Overdue payment: " + (overDueDays - 7) * 50); // suktam ti rate mo per day nu overdue
     }
@@ -112,7 +113,7 @@ public class ReturnBook {
     char choice = scan.next().charAt(0);
 
     if (choice == 'y') {
-      reportData += "\n" + overDuePay + "\n" + currentDate + "\n=====";
+      reportData += "\n" + payment + "\n" + overDuePay + "\n" + currentDate + "\n=====";
       fs.writeReport(reportData);
       returnInventory(bookInfo);
       fs.removeBorrow(studentId);

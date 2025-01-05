@@ -55,6 +55,25 @@ public class ValidateInput {
 		return false;
 	}
 
+	public boolean checkReportExistance(String studentId) throws IOException {
+		List<String> records = List.of(fs.readReports());
+		String content = String.join("\n", records);
+		String[] individualRecords = content.split("=====\\s*");
+
+		for (String record : individualRecords) {
+			record = record.trim();
+			String[] lines = record.split("\n");
+
+			if (lines.length > 0) {
+				String studentID = lines[0].trim();
+				if (studentID.equalsIgnoreCase(studentId))
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	public boolean checkExistance(String bookId) throws IOException {
 		List<String> records = List.of(fs.read());
 		String content = String.join("\n", records);
@@ -147,11 +166,10 @@ public class ValidateInput {
 					if (quantity > bookQuantity && bookID.equalsIgnoreCase(bookId)) {
 						System.out.println("Borrow quantity too high");
 						return 0;
-					} else if (quantity <= 0&& bookID.equalsIgnoreCase(bookId)) {
+					} else if (quantity <= 0 && bookID.equalsIgnoreCase(bookId)) {
 						System.out.println("Borrow quantity too low");
 						return 0;
 					}
-
 
 					if (bookID.equalsIgnoreCase(bookId)) {
 						int newBookQuantity = bookQuantity - quantity;
@@ -217,14 +235,43 @@ public class ValidateInput {
 				if (input == null) {
 					throw new IOException("Input stream closed.");
 				}
-				
+
 				if (Integer.parseInt(input) > 0) {
-				    return Integer.parseInt(input);
+					return Integer.parseInt(input);
 				}
-				
+
 				System.out.println("Input must be higher than 0");
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid input. Please enter a numeric value.");
+			}
+		}
+	}
+
+	public String paymentType(String prompt) throws IOException {
+		String input = null;
+		while (input == null
+				|| (!input.equalsIgnoreCase("cash") && !input.equalsIgnoreCase("card") && !input.equalsIgnoreCase("gcash"))) {
+			System.out.print(prompt);
+			input = read.readLine().trim();
+			if (!input.equalsIgnoreCase("cash") && !input.equalsIgnoreCase("card") && !input.equalsIgnoreCase("gcash")) {
+				System.out.println("Invalid input. Please enter either 'cash', 'card', or 'gcash'.");
+			}
+		}
+		return input;
+	}
+
+	public String studentId(String prompt) throws IOException {
+		while (true) {
+			System.out.print(prompt);
+			try {
+				String input = read.readLine();
+
+				if (input.length() == 7) {
+					return input;
+				}
+				System.out.println("Invalid student ID. Must be 7 digits");
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid student ID. Must be 7 digits");
 			}
 		}
 	}

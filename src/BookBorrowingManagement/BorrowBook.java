@@ -16,11 +16,11 @@ public class BorrowBook {
   private static Scanner scan = new Scanner(System.in);
   private static Sys sys = new Sys();
   private static ValidateInput validate = new ValidateInput();
-  
+
   private static boolean isBorrowed = false;
 
   private static String addData() throws IOException {
-    String studentId = validate.prompt("Enter Student ID: ");
+    String studentId = validate.studentId("Enter Student ID: ");
     boolean studentIdExist = validate.checkStudentExistance(studentId);
 
     if (studentIdExist) {
@@ -29,27 +29,28 @@ public class BorrowBook {
     }
 
     String studentName = validate.prompt("Enter Student Name: ");
-    String payment = validate.prompt("Enter payment type: ");
 
     Map<String, Integer> books = new HashMap<>();
     char addMore = 'x';
+    int bitems = 0;
     do {
       String bookId = validate.prompt("Enter Book ID: ");
       boolean bookIdExist = validate.checkExistance(bookId);
 
       if (!bookIdExist) {
         System.out.println("\nBook with that id does not exist!");
+        if (bitems == 0)
+          isBorrowed = false;
       } else {
         bookDetails.show(bookId.trim());
 
         int bookQuantity = validate.checkQuantity("Quantity to Borrow: ", bookId);
 
-        if (bookQuantity <= 0) {
-        	System.out.println("No changes made!");
-        } else {
-        	books.put(bookId, books.getOrDefault(bookId, 0) + bookQuantity);
-        	System.out.println("Book added!");
-        	isBorrowed = true;
+        if (bookQuantity >= 0) {
+          books.put(bookId, books.getOrDefault(bookId, 0) + bookQuantity);
+          System.out.println("Book added!");
+          bitems++;
+          isBorrowed = true;
         }
       }
 
@@ -62,7 +63,7 @@ public class BorrowBook {
       booksData.append(entry.getKey()).append("=").append(entry.getValue()).append("|");
     }
 
-    String data = studentId + "\n" + studentName + "\n" + payment + "\n" + booksData + "\n" + LocalDate.now()
+    String data = studentId + "\n" + studentName + "\n" + booksData + "\n" + LocalDate.now()
         + "\n=====";
 
     return data;
@@ -75,10 +76,10 @@ public class BorrowBook {
       String data = addData();
       if (!data.equals("existed")) {
         if (isBorrowed) {
-        	fs.writeBorrow(data);
-            System.out.println("\nRecord saved!");
+          fs.writeBorrow(data);
+          System.out.println("\nRecord saved!");
         } else {
-        	System.out.println("\nNo booked borrowed");
+          System.out.println("\nNo changes made!");
         }
       }
       System.out.print("\nAdd more student? (y/n): ");

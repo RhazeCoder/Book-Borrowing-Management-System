@@ -15,6 +15,7 @@ public class MainMenu {
     BorrowBook borrowBook = new BorrowBook();
     ViewBorrowedBook viewBorrowed = new ViewBorrowedBook();
     ReturnBook returnBook = new ReturnBook();
+    Search search = new Search();
     Reports reports = new Reports();
 
     private void navigateMenu(char choice) throws IOException {
@@ -40,10 +41,14 @@ public class MainMenu {
                 sys.pause();
                 break;
             case '6':
-                reports.start();
+                search.start();
                 sys.pause();
                 break;
             case '7':
+                reports.start();
+                sys.pause();
+                break;
+            case '8':
                 System.out.println("System Closed!");
                 scan.close();
                 break;
@@ -63,12 +68,13 @@ public class MainMenu {
             System.out.println("\t  [3] Borrow Book");
             System.out.println("\t  [4] View Borrowed Book");
             System.out.println("\t  [5] Return Book");
-            System.out.println("\t  [6] Report");
-            System.out.println("\t  [7] Exit");
+            System.out.println("\t  [6] Search");
+            System.out.println("\t  [7] Report");
+            System.out.println("\t  [8] Exit");
             System.out.print("\nEnter choice: ");
             choice = scan.next().charAt(0);
             sys.cls();
             navigateMenu(choice);
-        } while (choice != '7');
+        } while (choice != '8');
     }
 }

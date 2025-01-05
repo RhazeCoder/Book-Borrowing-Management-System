@@ -15,8 +15,8 @@ public class AddBook {
   private static ValidateInput validate = new ValidateInput();
 
   private static String addData() throws IOException {
-    String bookId = validate.prompt("Enter Book ID: ");
-    boolean bookIdExist = validate.checkExistance(bookId);
+    int bookId = validate.promptInt("Enter Book ID: ");
+    boolean bookIdExist = validate.checkExistance(String.valueOf(bookId));
 
     if (bookIdExist) {
       System.out.println("\nBook with that id already exist!");
